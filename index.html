@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1020">
+<meta name="description" content="Bright-Companion AI — your personal AI learning companion.">
+<title>Bright-Companion AI — Sign In</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--card:#151b2e;--text:#f7f8ff;--muted:#a5aec4;--accent:#8b7cf6;--border:#303951;--input:#101629;--danger:#ff9baf;--success:#8ee5c0}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;padding:24px;display:grid;place-items:center;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 10% 10%,#7461df26,transparent 38%),radial-gradient(ellipse at 90% 90%,#28709b20,transparent 35%),var(--bg)}
+button,input{font:inherit}
+.page{width:100%;max-width:420px}
+.brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:25px;font-size:21px;font-weight:750;letter-spacing:-.6px}
+.brand-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#a99cff,#6c5ce7);box-shadow:0 5px 22px #7162e644;color:white;font-size:23px}
+.uframe{padding:35px;background:linear-gradient(145deg,#191f34f5,#13192af7);border:1px solid #ffffff12;border-radius:23px;box-shadow:0 25px 80px #0006;overflow:hidden;backdrop-filter:blur(18px)}
+.login-step{display:none;flex-direction:column;gap:19px;width:100%}
+.login-step.active{display:flex;animation:enter .24s ease both}
+.login-step.leaving{display:flex;animation:leave .17s ease both;pointer-events:none}
+h1{margin:0;text-align:center;font-size:29px;line-height:1.2;letter-spacing:-1px;font-weight:760}
+.subtitle{margin:-9px 0 2px;color:var(--muted);font-size:14px;line-height:1.65;text-align:center}
+.field{width:100%}
+.field label{display:block;margin-bottom:8px;color:#dce2f2;font-size:13px;font-weight:650}
+.field input{display:block;width:100%;min-width:0;padding:14px 15px;background:var(--input);color:var(--text);border:1px solid var(--border);border-radius:11px;font-size:15px;transition:border-color .2s,box-shadow .2s}
+.field input::placeholder{color:#737e98}
+.field input:hover{border-color:#56617f}
+.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px #8878f52b}
+.primary-button{width:100%;padding:14px 16px;background:linear-gradient(135deg,#9788ff,#7664eb);color:white;border:1px solid #ffffff12;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px #7162e729;transition:filter .2s,transform .15s,opacity .2s}
+.primary-button:hover:not(:disabled){filter:brightness(1.1);box-shadow:0 9px 25px #7162e740}
+.primary-button:active:not(:disabled){transform:translateY(1px)}
+.primary-button:disabled{opacity:.65;cursor:wait}
+.back-button{align-self:center;padding:7px 10px;background:none;border:0;color:var(--muted);font-size:14px;cursor:pointer}
+.back-button:hover{color:white}
+.text-link{color:#b8afff;text-decoration:none;font-weight:600}
+.text-link:hover{text-decoration:underline}
+.helper-text{margin:0;color:var(--muted);font-size:13px;line-height:1.6;text-align:center}
+.align-right{text-align:right;margin-top:-12px}
+.account-email{margin:-9px 0 0;color:#c1b8ff;text-align:center;font-size:14px;overflow-wrap:anywhere}
+.notice{display:none;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:#101629;color:var(--muted);font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.notice.show{display:block}
+.notice.error{color:var(--danger);border-color:#ff718533;background:#ff71830a}
+.notice.success{color:var(--success);border-color:#66dfad33;background:#66dfad0a}
+.footer-note{margin:21px 0 0;text-align:center;color:#737d97;font-size:12px;letter-spacing:.2px}
+button:focus-visible,.text-link:focus-visible{outline:2px solid #c2baff;outline-offset:4px}
+@keyframes enter{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
+@keyframes leave{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-10px)}}
+@media(max-width:480px){body{padding:18px}.uframe{padding:29px 22px;border-radius:19px}.brand{font-size:19px}h1{font-size:27px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="page">
+<div class="brand"><span class="brand-icon" aria-hidden="true">✦</span><span>Bright-Companion AI</span></div>
+<div class="uframe">
+<div class="notice" id="notice" role="status" aria-live="polite"></div>
+<section class="login-step active" id="emailStep">
+<h1>Welcome</h1>
+<p class="subtitle">Sign in to continue your learning journey.</p>
+<div class="field"><label for="email">Email address</label><input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="username" required></div>
+<button class="primary-button" id="nextButton" type="button">Continue</button>
+<p class="helper-text">New to Bright-Companion AI? <a class="text-link" href="#signup" id="createAccountLink">Create an account</a></p>
+</section>
+<section class="login-step" id="passwordStep" aria-hidden="true" inert>
+<h1>Welcome back</h1>
+<p class="subtitle">Enter your password to sign in.</p>
+<p class="account-email" id="chosenEmail"></p>
+<div class="field"><label for="password">Password</label><input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required></div>
+<p class="helper-text align-right"><a class="text-link" href="#forgot-password" id="forgotPasswordLink">Forgot password?</a></p>
+<button class="primary-button" id="loginButton" type="button">Sign in</button>
+<button class="back-button" id="backButton" type="button">← Back to email</button>
+</section>
+<section class="login-step" id="signupStep" aria-hidden="true" inert>
+<h1>Create your account</h1>
+<p class="subtitle">A better study routine starts here.</p>
+<div class="field"><label for="signupName">Full name</label><input type="text" id="signupName" name="signupName" placeholder="Your full name" autocomplete="name" maxlength="100" required></div>
+<div class="field"><label for="signupEmail">Email address</label><input type="email" id="signupEmail" name="signupEmail" placeholder="you@example.com" autocomplete="email" required></div>
+<div class="field"><label for="signupPassword">Create password</label><input type="password" id="signupPassword" name="signupPassword" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required></div>
+<div class="field"><label for="confirmPassword">Confirm password</label><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter your password again" autocomplete="new-password" minlength="8" required></div>
+<button class="primary-button" id="signupButton" type="button">Create account</button>
+<p class="helper-text">Already have an account? <a class="text-link" href="#login" id="backToLoginLink">Sign in</a></p>
+</section>
+</div>
+<p class="footer-note">A focused space for your next step.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+"use strict";
+const SUPABASE_URL="https://cvavzvwdrdnhzehwbcde.supabase.co";
+const SUPABASE_KEY="sb_publishable_nDplIS94xUEkZN9arHHM2g_3j18JeOk";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id);
+const emailStep=$("emailStep"),passwordStep=$("passwordStep"),signupStep=$("signupStep");
+const emailInput=$("email"),passwordInput=$("password"),signupName=$("signupName"),signupEmail=$("signupEmail"),signupPassword=$("signupPassword"),confirmPassword=$("confirmPassword"),chosenEmail=$("chosenEmail"),notice=$("notice");
+let isTransitioning=false;
+function showNotice(message,type=""){notice.textContent=message;notice.className="notice show"+(type?" "+type:"")}
+function clearNotice(){notice.textContent="";notice.className="notice"}
+function switchStep(current,next,focus){
+if(isTransitioning||current===next)return;
+isTransitioning=true;clearNotice();current.classList.add("leaving");
+let finished=false,timer;
+function finish(){if(finished)return;finished=true;clearTimeout(timer);current.removeEventListener("animationend",onExit);current.classList.remove("active","leaving");current.setAttribute("aria-hidden","true");current.inert=true;next.classList.add("active");next.setAttribute("aria-hidden","false");next.inert=false;focus.focus();isTransitioning=false}
+function onExit(event){if(event.target===current)finish()}
+current.addEventListener("animationend",onExit);timer=setTimeout(finish,220);
+}
+function valid(field){if(!field.value.trim()||!field.checkValidity()){field.reportValidity();field.focus();return false}return true}
+function setBusy(button,busy,label){if(busy){button.dataset.label=button.textContent;button.textContent=label;button.disabled=true}else{button.textContent=button.dataset.label||button.textContent;button.disabled=false}}
+function goToPassword(){if(!valid(emailInput))return;emailInput.value=emailInput.value.trim();chosenEmail.textContent=emailInput.value;switchStep(emailStep,passwordStep,passwordInput)}
+$("nextButton").addEventListener("click",goToPassword);
+emailInput.addEventListener("keydown",e=>{if(e.key==="Enter")goToPassword()});
+passwordInput.addEventListener("keydown",e=>{if(e.key==="Enter")$("loginButton").click()});
+signupPassword.addEventListener("keydown",e=>{if(e.key==="Enter")confirmPassword.focus()});
+confirmPassword.addEventListener("keydown",e=>{if(e.key==="Enter")$("signupButton").click()});
+$("backButton").addEventListener("click",()=>switchStep(passwordStep,emailStep,emailInput));
+$("createAccountLink").addEventListener("click",e=>{e.preventDefault();switchStep(emailStep,signupStep,signupName)});
+$("backToLoginLink").addEventListener("click",e=>{e.preventDefault();switchStep(signupStep,emailStep,emailInput)});
+confirmPassword.addEventListener("input",()=>confirmPassword.setCustomValidity(""));
+passwordInput.addEventListener("input",()=>passwordInput.setCustomValidity(""));
+$("signupButton").addEventListener("click",async()=>{
+const fields=[signupName,signupEmail,signupPassword,confirmPassword];
+for(const field of fields){if(!valid(field))return}
+if(signupPassword.value!==confirmPassword.value){confirmPassword.setCustomValidity("Passwords do not match.");confirmPassword.reportValidity();confirmPassword.focus();return}
+confirmPassword.setCustomValidity("");
+const button=$("signupButton");setBusy(button,true,"Creating account...");
+try{
+const {data,error}=await supabaseClient.auth.signUp({email:signupEmail.value.trim(),password:signupPassword.value,options:{data:{full_name:signupName.value.trim()}}});
+if(error)throw error;
+if(data.user&&!data.session)showNotice("Your account was created! Check your email and confirm your address before signing in.","success");
+else showNotice("Your account has been created. Welcome to Bright-Companion AI!","success");
+}catch(error){showNotice(error.message||"We couldn't create your account. Please try again.","error")}
+finally{setBusy(button,false)}
+});
+$("loginButton").addEventListener("click",async()=>{
+if(!valid(passwordInput))return;
+const button=$("loginButton");setBusy(button,true,"Signing in...");
+try{
+const {data,error}=await supabaseClient.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
+if(error)throw error;
+if(data.session){window.location.href="dashboard.html";return}
+showNotice("Please confirm your email before continuing.","error");
+}catch(error){showNotice(error.message||"Sign-in failed. Check your details and try again.","error")}
+finally{setBusy(button,false)}
+});
+$("forgotPasswordLink").addEventListener("click",async e=>{
+e.preventDefault();
+if(!valid(emailInput)){switchStep(passwordStep,emailStep,emailInput);return}
+const button=$("forgotPasswordLink");button.style.pointerEvents="none";
+try{
+const {error}=await supabaseClient.auth.resetPasswordForEmail(emailInput.value.trim(),{redirectTo:window.location.origin});
+if(error)throw error;
+showNotice("If password recovery is available for this address, you'll receive an email with instructions.","success");
+}catch(error){showNotice(error.message||"Couldn't send the password reset email. Please try again.","error")}
+finally{button.style.pointerEvents=""}
+});
+</script>
+</body>
+</html>
