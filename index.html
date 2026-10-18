@@ -38,7 +38,7 @@ h1{margin:0;text-align:center;font-size:29px;line-height:1.2;letter-spacing:-1px
 .helper-text{margin:0;color:var(--muted);font-size:13px;line-height:1.6;text-align:center}
 .align-right{text-align:right;margin-top:-12px}
 .account-email{margin:-9px 0 0;color:#c1b8ff;text-align:center;font-size:14px;overflow-wrap:anywhere}
-.notice{display:none;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:#101629;color:var(--muted);font-size:13px;line-height:1.55;overflow-wrap:anywhere}
+.notice{display:none;margin-bottom:17px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:#101629;color:var(--muted);font-size:13px;line-height:1.55;overflow-wrap:anywhere}
 .notice.show{display:block}
 .notice.error{color:var(--danger);border-color:#ff718533;background:#ff71830a}
 .notice.success{color:var(--success);border-color:#66dfad33;background:#66dfad0a}
@@ -91,6 +91,8 @@ const SUPABASE_URL="https://cvavzvwdrdnhzehwbcde.supabase.co";
 const SUPABASE_KEY="sb_publishable_nDplIS94xUEkZN9arHHM2g_3j18JeOk";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 const $=id=>document.getElementById(id);
+const SITE_URL=new URL("./",window.location.href).href;
+const DASHBOARD_URL=new URL("dashboard.html",SITE_URL).href;
 const emailStep=$("emailStep"),passwordStep=$("passwordStep"),signupStep=$("signupStep");
 const emailInput=$("email"),passwordInput=$("password"),signupName=$("signupName"),signupEmail=$("signupEmail"),signupPassword=$("signupPassword"),confirmPassword=$("confirmPassword"),chosenEmail=$("chosenEmail"),notice=$("notice");
 let isTransitioning=false;
@@ -117,6 +119,7 @@ $("createAccountLink").addEventListener("click",e=>{e.preventDefault();switchSte
 $("backToLoginLink").addEventListener("click",e=>{e.preventDefault();switchStep(signupStep,emailStep,emailInput)});
 confirmPassword.addEventListener("input",()=>confirmPassword.setCustomValidity(""));
 passwordInput.addEventListener("input",()=>passwordInput.setCustomValidity(""));
+
 $("signupButton").addEventListener("click",async()=>{
 const fields=[signupName,signupEmail,signupPassword,confirmPassword];
 for(const field of fields){if(!valid(field))return}
@@ -124,30 +127,36 @@ if(signupPassword.value!==confirmPassword.value){confirmPassword.setCustomValidi
 confirmPassword.setCustomValidity("");
 const button=$("signupButton");setBusy(button,true,"Creating account...");
 try{
-const {data,error}=await supabaseClient.auth.signUp({email:signupEmail.value.trim(),password:signupPassword.value,options:{data:{full_name:signupName.value.trim()}}});
+const {data,error}=await supabaseClient.auth.signUp({
+email:signupEmail.value.trim(),
+password:signupPassword.value,
+options:{data:{full_name:signupName.value.trim()},emailRedirectTo:SITE_URL}
+});
 if(error)throw error;
 if(data.user&&!data.session)showNotice("Your account was created! Check your email and confirm your address before signing in.","success");
 else showNotice("Your account has been created. Welcome to Bright-Companion AI!","success");
 }catch(error){showNotice(error.message||"We couldn't create your account. Please try again.","error")}
 finally{setBusy(button,false)}
 });
+
 $("loginButton").addEventListener("click",async()=>{
 if(!valid(passwordInput))return;
 const button=$("loginButton");setBusy(button,true,"Signing in...");
 try{
 const {data,error}=await supabaseClient.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
 if(error)throw error;
-if(data.session){window.location.href="dashboard.html";return}
+if(data.session){window.location.assign(DASHBOARD_URL);return}
 showNotice("Please confirm your email before continuing.","error");
 }catch(error){showNotice(error.message||"Sign-in failed. Check your details and try again.","error")}
 finally{setBusy(button,false)}
 });
+
 $("forgotPasswordLink").addEventListener("click",async e=>{
 e.preventDefault();
 if(!valid(emailInput)){switchStep(passwordStep,emailStep,emailInput);return}
 const button=$("forgotPasswordLink");button.style.pointerEvents="none";
 try{
-const {error}=await supabaseClient.auth.resetPasswordForEmail(emailInput.value.trim(),{redirectTo:window.location.origin});
+const {error}=await supabaseClient.auth.resetPasswordForEmail(emailInput.value.trim(),{redirectTo:SITE_URL});
 if(error)throw error;
 showNotice("If password recovery is available for this address, you'll receive an email with instructions.","success");
 }catch(error){showNotice(error.message||"Couldn't send the password reset email. Please try again.","error")}
