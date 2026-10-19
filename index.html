@@ -87,81 +87,75 @@ button:focus-visible,.text-link:focus-visible{outline:2px solid #c2baff;outline-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
-const SUPABASE_URL="https://cvavzvwdrdnhzehwbcde.supabase.co";
-const SUPABASE_KEY="sb_publishable_nDplIS94xUEkZN9arHHM2g_3j18JeOk";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);
-const SITE_URL=new URL("./",window.location.href).href;
-const DASHBOARD_URL=new URL("dashboard.html",SITE_URL).href;
-const emailStep=$("emailStep"),passwordStep=$("passwordStep"),signupStep=$("signupStep");
-const emailInput=$("email"),passwordInput=$("password"),signupName=$("signupName"),signupEmail=$("signupEmail"),signupPassword=$("signupPassword"),confirmPassword=$("confirmPassword"),chosenEmail=$("chosenEmail"),notice=$("notice");
-let isTransitioning=false;
-function showNotice(message,type=""){notice.textContent=message;notice.className="notice show"+(type?" "+type:"")}
-function clearNotice(){notice.textContent="";notice.className="notice"}
-function switchStep(current,next,focus){
-if(isTransitioning||current===next)return;
-isTransitioning=true;clearNotice();current.classList.add("leaving");
-let finished=false,timer;
-function finish(){if(finished)return;finished=true;clearTimeout(timer);current.removeEventListener("animationend",onExit);current.classList.remove("active","leaving");current.setAttribute("aria-hidden","true");current.inert=true;next.classList.add("active");next.setAttribute("aria-hidden","false");next.inert=false;focus.focus();isTransitioning=false}
-function onExit(event){if(event.target===current)finish()}
-current.addEventListener("animationend",onExit);timer=setTimeout(finish,220);
+const db=window.supabase.createClient("https://cvavzvwdrdnhzehwbcde.supabase.co","sb_publishable_nDplIS94xUEkZN9arHHM2g_3j18JeOk");
+const $=id=>document.getElementById(id),site=new URL("./",location.href).href,dashboard=new URL("dashboard.html",site).href;
+const email=$("email"),password=$("password"),name=$("signupName"),se=$("signupEmail"),sp=$("signupPassword"),cp=$("confirmPassword"),notice=$("notice");
+const es=$("emailStep"),ps=$("passwordStep"),ss=$("signupStep");
+let transitioning=false;
+function msg(s,type=""){notice.textContent=s;notice.className="notice show"+(type?" "+type:"")}
+function clear(){notice.textContent="";notice.className="notice"}
+function valid(el){el.value=el.type==="password"?el.value:el.value.trim();if(!el.checkValidity()){el.reportValidity();el.focus();return false}return true}
+function busy(b,on,label=""){if(on){if(b.disabled)return false;b.dataset.old=b.textContent;b.disabled=true;b.textContent=label;b.setAttribute("aria-busy","true")}else{b.textContent=b.dataset.old||b.textContent;delete b.dataset.old;b.disabled=false;b.removeAttribute("aria-busy")}return true}
+function switchStep(from,to,focus){if(transitioning||from===to)return;transitioning=true;clear();from.classList.add("leaving");let done=false,timer;function finish(){if(done)return;done=true;clearTimeout(timer);from.removeEventListener("animationend",end);from.classList.remove("active","leaving");from.inert=true;from.setAttribute("aria-hidden","true");to.classList.add("active");to.inert=false;to.setAttribute("aria-hidden","false");transitioning=false;focus.focus()}function end(e){if(e.target===from)finish()}from.addEventListener("animationend",end);timer=setTimeout(finish,250)}
+function next(){if(!valid(email))return;email.value=email.value.trim().toLowerCase();$("chosenEmail").textContent=email.value;switchStep(es,ps,password)}
+$("nextButton").onclick=next;
+email.onkeydown=e=>{if(e.key==="Enter")next()};
+password.onkeydown=e=>{if(e.key==="Enter")$("loginButton").click()};
+sp.onkeydown=e=>{if(e.key==="Enter")cp.focus()};
+cp.onkeydown=e=>{if(e.key==="Enter")$("signupButton").click()};
+$("backButton").onclick=()=>switchStep(ps,es,email);
+$("createAccountLink").onclick=e=>{e.preventDefault();switchStep(es,ss,name)};
+$("backToLoginLink").onclick=e=>{e.preventDefault();switchStep(ss,es,email)};
+password.oninput=()=>password.setCustomValidity("");
+cp.oninput=()=>cp.setCustomValidity("");
+
+$("signupButton").onclick=async()=>{
+const b=$("signupButton");
+if(b.disabled)return;
+for(const f of [name,se,sp,cp])if(!valid(f))return;
+if(sp.value.length<8){sp.setCustomValidity("Password must be at least 8 characters.");sp.reportValidity();return}
+if(sp.value!==cp.value){cp.setCustomValidity("Passwords do not match.");cp.reportValidity();cp.focus();return}
+sp.setCustomValidity("");cp.setCustomValidity("");busy(b,true,"Creating account...");
+try{
+const {data,error}=await db.auth.signUp({email:se.value.trim().toLowerCase(),password:sp.value,options:{data:{full_name:name.value.trim()},emailRedirectTo:site}});
+if(error)throw error;
+msg(data.user&&!data.session?"Account created! Check your email to confirm your address.":"Account created successfully.","success");
+}catch(e){console.error("Signup:",e);msg("Could not create account. Check your details and try again.","error")}
+finally{busy(b,false)}
+};
+
+$("loginButton").onclick=async()=>{
+const b=$("loginButton");
+if(b.disabled||!valid(password))return;
+busy(b,true,"Signing in...");
+try{
+const {data,error}=await db.auth.signInWithPassword({email:email.value.trim().toLowerCase(),password:password.value});
+if(error){
+msg(error.code==="email_not_confirmed"?"Please confirm your email before signing in.":"Sign-in failed. Check your email and password.","error");
+return;
 }
-function valid(field){if(!field.value.trim()||!field.checkValidity()){field.reportValidity();field.focus();return false}return true}
-function setBusy(button,busy,label){if(busy){button.dataset.label=button.textContent;button.textContent=label;button.disabled=true}else{button.textContent=button.dataset.label||button.textContent;button.disabled=false}}
-function goToPassword(){if(!valid(emailInput))return;emailInput.value=emailInput.value.trim();chosenEmail.textContent=emailInput.value;switchStep(emailStep,passwordStep,passwordInput)}
-$("nextButton").addEventListener("click",goToPassword);
-emailInput.addEventListener("keydown",e=>{if(e.key==="Enter")goToPassword()});
-passwordInput.addEventListener("keydown",e=>{if(e.key==="Enter")$("loginButton").click()});
-signupPassword.addEventListener("keydown",e=>{if(e.key==="Enter")confirmPassword.focus()});
-confirmPassword.addEventListener("keydown",e=>{if(e.key==="Enter")$("signupButton").click()});
-$("backButton").addEventListener("click",()=>switchStep(passwordStep,emailStep,emailInput));
-$("createAccountLink").addEventListener("click",e=>{e.preventDefault();switchStep(emailStep,signupStep,signupName)});
-$("backToLoginLink").addEventListener("click",e=>{e.preventDefault();switchStep(signupStep,emailStep,emailInput)});
-confirmPassword.addEventListener("input",()=>confirmPassword.setCustomValidity(""));
-passwordInput.addEventListener("input",()=>passwordInput.setCustomValidity(""));
+if(!data.session){msg("No active session returned. Please try again.","error");return}
+location.assign(dashboard);
+}catch(e){console.error("Login:",e);msg("Sign-in failed. Check your connection and try again.","error")}
+finally{busy(b,false)}
+};
 
-$("signupButton").addEventListener("click",async()=>{
-const fields=[signupName,signupEmail,signupPassword,confirmPassword];
-for(const field of fields){if(!valid(field))return}
-if(signupPassword.value!==confirmPassword.value){confirmPassword.setCustomValidity("Passwords do not match.");confirmPassword.reportValidity();confirmPassword.focus();return}
-confirmPassword.setCustomValidity("");
-const button=$("signupButton");setBusy(button,true,"Creating account...");
-try{
-const {data,error}=await supabaseClient.auth.signUp({
-email:signupEmail.value.trim(),
-password:signupPassword.value,
-options:{data:{full_name:signupName.value.trim()},emailRedirectTo:SITE_URL}
-});
-if(error)throw error;
-if(data.user&&!data.session)showNotice("Your account was created! Check your email and confirm your address before signing in.","success");
-else showNotice("Your account has been created. Welcome to Bright-Companion AI!","success");
-}catch(error){showNotice(error.message||"We couldn't create your account. Please try again.","error")}
-finally{setBusy(button,false)}
-});
-
-$("loginButton").addEventListener("click",async()=>{
-if(!valid(passwordInput))return;
-const button=$("loginButton");setBusy(button,true,"Signing in...");
-try{
-const {data,error}=await supabaseClient.auth.signInWithPassword({email:emailInput.value.trim(),password:passwordInput.value});
-if(error)throw error;
-if(data.session){window.location.assign(DASHBOARD_URL);return}
-showNotice("Please confirm your email before continuing.","error");
-}catch(error){showNotice(error.message||"Sign-in failed. Check your details and try again.","error")}
-finally{setBusy(button,false)}
-});
-
-$("forgotPasswordLink").addEventListener("click",async e=>{
+$("forgotPasswordLink").onclick=async e=>{
 e.preventDefault();
-if(!valid(emailInput)){switchStep(passwordStep,emailStep,emailInput);return}
-const button=$("forgotPasswordLink");button.style.pointerEvents="none";
+if(!valid(email)){switchStep(ps,es,email);return}
+const b=e.currentTarget;if(b.dataset.busy)return;
+b.dataset.busy="1";b.style.pointerEvents="none";
 try{
-const {error}=await supabaseClient.auth.resetPasswordForEmail(emailInput.value.trim(),{redirectTo:SITE_URL});
+const {error}=await db.auth.resetPasswordForEmail(email.value.trim().toLowerCase(),{redirectTo:site});
 if(error)throw error;
-showNotice("If password recovery is available for this address, you'll receive an email with instructions.","success");
-}catch(error){showNotice(error.message||"Couldn't send the password reset email. Please try again.","error")}
-finally{button.style.pointerEvents=""}
-});
+msg("If recovery is available, you'll receive an email with instructions.","success");
+}catch(e){console.error("Recovery:",e);msg("Could not send recovery email. Please try again.","error")}
+finally{delete b.dataset.busy;b.style.pointerEvents=""}
+};
+
+ps.inert=true;ps.setAttribute("aria-hidden","true");
+ss.inert=true;ss.setAttribute("aria-hidden","true");
+console.info("Dashboard destination:",dashboard);
 </script>
 </body>
 </html>
