@@ -4,158 +4,779 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b1020">
+<meta name="theme-color" content="#ffffff">
 <meta name="description" content="Bright-Companion AI — your personal AI learning companion.">
-<title>Bright-Companion AI — Sign In</title>
+<title>Bright-Companion AI</title>
+
 <style>
-:root{color-scheme:dark;--bg:#0b1020;--card:#151b2e;--text:#f7f8ff;--muted:#a5aec4;--accent:#8b7cf6;--border:#303951;--input:#101629;--danger:#ff9baf;--success:#8ee5c0}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;padding:24px;display:grid;place-items:center;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--text);background:radial-gradient(ellipse at 10% 10%,#7461df26,transparent 38%),radial-gradient(ellipse at 90% 90%,#28709b20,transparent 35%),var(--bg)}
-button,input{font:inherit}
-.page{width:100%;max-width:420px}
-.brand{display:flex;align-items:center;justify-content:center;gap:11px;margin-bottom:25px;font-size:21px;font-weight:750;letter-spacing:-.6px}
-.brand-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#a99cff,#6c5ce7);box-shadow:0 5px 22px #7162e644;color:white;font-size:23px}
-.uframe{padding:35px;background:linear-gradient(145deg,#191f34f5,#13192af7);border:1px solid #ffffff12;border-radius:23px;box-shadow:0 25px 80px #0006;overflow:hidden;backdrop-filter:blur(18px)}
-.login-step{display:none;flex-direction:column;gap:19px;width:100%}
-.login-step.active{display:flex;animation:enter .24s ease both}
-.login-step.leaving{display:flex;animation:leave .17s ease both;pointer-events:none}
-h1{margin:0;text-align:center;font-size:29px;line-height:1.2;letter-spacing:-1px;font-weight:760}
-.subtitle{margin:-9px 0 2px;color:var(--muted);font-size:14px;line-height:1.65;text-align:center}
-.field{width:100%}
-.field label{display:block;margin-bottom:8px;color:#dce2f2;font-size:13px;font-weight:650}
-.field input{display:block;width:100%;min-width:0;padding:14px 15px;background:var(--input);color:var(--text);border:1px solid var(--border);border-radius:11px;font-size:15px;transition:border-color .2s,box-shadow .2s}
-.field input::placeholder{color:#737e98}
-.field input:hover{border-color:#56617f}
-.field input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px #8878f52b}
-.primary-button{width:100%;padding:14px 16px;background:linear-gradient(135deg,#9788ff,#7664eb);color:white;border:1px solid #ffffff12;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 6px 20px #7162e729;transition:filter .2s,transform .15s,opacity .2s}
-.primary-button:hover:not(:disabled){filter:brightness(1.1);box-shadow:0 9px 25px #7162e740}
-.primary-button:active:not(:disabled){transform:translateY(1px)}
-.primary-button:disabled{opacity:.65;cursor:wait}
-.back-button{align-self:center;padding:7px 10px;background:none;border:0;color:var(--muted);font-size:14px;cursor:pointer}
-.back-button:hover{color:white}
-.text-link{color:#b8afff;text-decoration:none;font-weight:600}
-.text-link:hover{text-decoration:underline}
-.helper-text{margin:0;color:var(--muted);font-size:13px;line-height:1.6;text-align:center}
-.align-right{text-align:right;margin-top:-12px}
-.account-email{margin:-9px 0 0;color:#c1b8ff;text-align:center;font-size:14px;overflow-wrap:anywhere}
-.notice{display:none;margin-bottom:17px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;background:#101629;color:var(--muted);font-size:13px;line-height:1.55;overflow-wrap:anywhere}
-.notice.show{display:block}
-.notice.error{color:var(--danger);border-color:#ff718533;background:#ff71830a}
-.notice.success{color:var(--success);border-color:#66dfad33;background:#66dfad0a}
-.footer-note{margin:21px 0 0;text-align:center;color:#737d97;font-size:12px;letter-spacing:.2px}
-button:focus-visible,.text-link:focus-visible{outline:2px solid #c2baff;outline-offset:4px}
-@keyframes enter{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:translateX(0)}}
-@keyframes leave{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-10px)}}
-@media(max-width:480px){body{padding:18px}.uframe{padding:29px 22px;border-radius:19px}.brand{font-size:19px}h1{font-size:27px}}
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+:root {
+  color-scheme: light;
+  --bg: #0b1020;
+  --card: #151b2e;
+  --text: #f7f8ff;
+  --muted: #a5aec4;
+  --accent: #8b7cf6;
+  --border: #303951;
+  --input: #101629;
+  --danger: #ff9baf;
+  --success: #8ee5c0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  font-family: Inter, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 10% 10%, #7461df26, transparent 38%),
+    radial-gradient(ellipse at 90% 90%, #28709b20, transparent 35%),
+    var(--bg);
+}
+
+button, input { font: inherit; }
+
+.page {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* PURE WHITE HOME SCREEN */
+
+body.home-view {
+  padding: 0;
+  display: block;
+  min-height: 100vh;
+  background: #ffffff;
+  color-scheme: light;
+}
+
+body.home-view .page {
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+}
+
+.home-screen {
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #ffffff;
+}
+
+.home-login-button {
+  padding: 15px 54px;
+  border: none;
+  border-radius: 10px;
+  background: #7966ed;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+
+.home-login-button:hover {
+  background: #6652db;
+  transform: translateY(-2px);
+}
+
+.home-login-button:active {
+  transform: translateY(0);
+}
+
+.home-login-button:focus-visible {
+  outline: 3px solid #bcb1ff;
+  outline-offset: 4px;
+}
+
+/* LOGIN PAGE */
+
+#loginPage[hidden],
+#homePage[hidden] {
+  display: none !important;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-bottom: 25px;
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -.6px;
+}
+
+.brand-icon {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #a99cff, #6c5ce7);
+  box-shadow: 0 5px 22px #7162e644;
+  color: white;
+  font-size: 23px;
+}
+
+.uframe {
+  padding: 35px;
+  background: linear-gradient(145deg, #191f34f5, #13192af7);
+  border: 1px solid #ffffff12;
+  border-radius: 23px;
+  box-shadow: 0 25px 80px #0006;
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+}
+
+.login-step {
+  display: none;
+  flex-direction: column;
+  gap: 19px;
+  width: 100%;
+}
+
+.login-step.active {
+  display: flex;
+  animation: enter .24s ease both;
+}
+
+.login-step.leaving {
+  display: flex;
+  animation: leave .17s ease both;
+  pointer-events: none;
+}
+
+h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 29px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  font-weight: 760;
+}
+
+.subtitle {
+  margin: -9px 0 2px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.field { width: 100%; }
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  color: #dce2f2;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.field input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 14px 15px;
+  background: var(--input);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  font-size: 15px;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.field input::placeholder { color: #737e98; }
+.field input:hover { border-color: #56617f; }
+
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px #8878f52b;
+}
+
+.primary-button {
+  width: 100%;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #9788ff, #7664eb);
+  color: white;
+  border: 1px solid #ffffff12;
+  border-radius: 11px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 20px #7162e729;
+  transition: filter .2s, transform .15s, opacity .2s;
+}
+
+.primary-button:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: 0 9px 25px #7162e740;
+}
+
+.primary-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.primary-button:disabled {
+  opacity: .65;
+  cursor: wait;
+}
+
+.back-button {
+  align-self: center;
+  padding: 7px 10px;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-button:hover { color: white; }
+
+.text-link {
+  color: #b8afff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.text-link:hover { text-decoration: underline; }
+
+.helper-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+  margin-top: -12px;
+}
+
+.account-email {
+  margin: -9px 0 0;
+  color: #c1b8ff;
+  text-align: center;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.notice {
+  display: none;
+  margin-bottom: 17px;
+  padding: 11px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #101629;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.notice.show { display: block; }
+
+.notice.error {
+  color: var(--danger);
+  border-color: #ff718533;
+  background: #ff71830a;
+}
+
+.notice.success {
+  color: var(--success);
+  border-color: #66dfad33;
+  background: #66dfad0a;
+}
+
+.footer-note {
+  margin: 21px 0 0;
+  text-align: center;
+  color: #737d97;
+  font-size: 12px;
+  letter-spacing: .2px;
+}
+
+button:focus-visible,
+.text-link:focus-visible {
+  outline: 2px solid #c2baff;
+  outline-offset: 4px;
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateX(10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes leave {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(-10px); }
+}
+
+@media(max-width:480px) {
+  body:not(.home-view) { padding: 18px; }
+  .uframe { padding: 29px 22px; border-radius: 19px; }
+  .brand { font-size: 19px; }
+  h1 { font-size: 27px; }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 </style>
 </head>
-<body>
+
+<body class="home-view">
 <main class="page">
-<div class="brand"><span class="brand-icon" aria-hidden="true">✦</span><span>Bright-Companion AI</span></div>
-<div class="uframe">
-<div class="notice" id="notice" role="status" aria-live="polite"></div>
-<section class="login-step active" id="emailStep">
-<h1>Welcome</h1>
-<p class="subtitle">Sign in to continue your learning journey.</p>
-<div class="field"><label for="email">Email address</label><input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="username" required></div>
-<button class="primary-button" id="nextButton" type="button">Continue</button>
-<p class="helper-text">New to Bright-Companion AI? <a class="text-link" href="#signup" id="createAccountLink">Create an account</a></p>
-</section>
-<section class="login-step" id="passwordStep" aria-hidden="true" inert>
-<h1>Welcome back</h1>
-<p class="subtitle">Enter your password to sign in.</p>
-<p class="account-email" id="chosenEmail"></p>
-<div class="field"><label for="password">Password</label><input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required></div>
-<p class="helper-text align-right"><a class="text-link" href="#forgot-password" id="forgotPasswordLink">Forgot password?</a></p>
-<button class="primary-button" id="loginButton" type="button">Sign in</button>
-<button class="back-button" id="backButton" type="button">← Back to email</button>
-</section>
-<section class="login-step" id="signupStep" aria-hidden="true" inert>
-<h1>Create your account</h1>
-<p class="subtitle">A better study routine starts here.</p>
-<div class="field"><label for="signupName">Full name</label><input type="text" id="signupName" name="signupName" placeholder="Your full name" autocomplete="name" maxlength="100" required></div>
-<div class="field"><label for="signupEmail">Email address</label><input type="email" id="signupEmail" name="signupEmail" placeholder="you@example.com" autocomplete="email" required></div>
-<div class="field"><label for="signupPassword">Create password</label><input type="password" id="signupPassword" name="signupPassword" placeholder="At least 8 characters" autocomplete="new-password" minlength="8" required></div>
-<div class="field"><label for="confirmPassword">Confirm password</label><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter your password again" autocomplete="new-password" minlength="8" required></div>
-<button class="primary-button" id="signupButton" type="button">Create account</button>
-<p class="helper-text">Already have an account? <a class="text-link" href="#login" id="backToLoginLink">Sign in</a></p>
-</section>
-</div>
-<p class="footer-note">A focused space for your next step.</p>
+
+  <!-- WHITE HOME SCREEN: ONLY THE LOGIN BUTTON -->
+  <section class="home-screen" id="homePage">
+    <button
+      class="home-login-button"
+      id="openLoginButton"
+      type="button">
+      Log In
+    </button>
+  </section>
+
+  <!-- ORIGINAL VIBRANT LOGIN PAGE -->
+  <section id="loginPage" hidden>
+
+    <div class="brand">
+      <span class="brand-icon" aria-hidden="true">✦</span>
+      <span>Bright-Companion AI</span>
+    </div>
+
+    <div class="uframe">
+      <div class="notice" id="notice" role="status" aria-live="polite"></div>
+
+      <!-- EMAIL STEP -->
+      <section class="login-step active" id="emailStep">
+        <h1>Welcome</h1>
+        <p class="subtitle">Sign in to continue your learning journey.</p>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email"
+            placeholder="you@example.com"
+            autocomplete="username" required>
+        </div>
+
+        <button class="primary-button" id="nextButton" type="button">
+          Continue
+        </button>
+
+        <p class="helper-text">
+          New to Bright-Companion AI?
+          <a class="text-link" href="#signup" id="createAccountLink">
+            Create an account
+          </a>
+        </p>
+      </section>
+
+      <!-- PASSWORD STEP -->
+      <section class="login-step" id="passwordStep"
+        aria-hidden="true" inert>
+        <h1>Welcome back</h1>
+        <p class="subtitle">Enter your password to sign in.</p>
+
+        <p class="account-email" id="chosenEmail"></p>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password" required>
+        </div>
+
+        <p class="helper-text align-right">
+          <a class="text-link" href="#forgot-password"
+            id="forgotPasswordLink">
+            Forgot password?
+          </a>
+        </p>
+
+        <button class="primary-button" id="loginButton" type="button">
+          Sign in
+        </button>
+
+        <button class="back-button" id="backButton" type="button">
+          ← Back to email
+        </button>
+      </section>
+
+      <!-- SIGNUP STEP -->
+      <section class="login-step" id="signupStep"
+        aria-hidden="true" inert>
+        <h1>Create your account</h1>
+        <p class="subtitle">A better study routine starts here.</p>
+
+        <div class="field">
+          <label for="signupName">Full name</label>
+          <input type="text" id="signupName" name="signupName"
+            placeholder="Your full name" autocomplete="name"
+            maxlength="100" required>
+        </div>
+
+        <div class="field">
+          <label for="signupEmail">Email address</label>
+          <input type="email" id="signupEmail" name="signupEmail"
+            placeholder="you@example.com" autocomplete="email" required>
+        </div>
+
+        <div class="field">
+          <label for="signupPassword">Create password</label>
+          <input type="password" id="signupPassword" name="signupPassword"
+            placeholder="At least 8 characters"
+            autocomplete="new-password" minlength="8" required>
+        </div>
+
+        <div class="field">
+          <label for="confirmPassword">Confirm password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword"
+            placeholder="Enter your password again"
+            autocomplete="new-password" minlength="8" required>
+        </div>
+
+        <button class="primary-button" id="signupButton" type="button">
+          Create account
+        </button>
+
+        <p class="helper-text">
+          Already have an account?
+          <a class="text-link" href="#login" id="backToLoginLink">
+            Sign in
+          </a>
+        </p>
+      </section>
+    </div>
+
+    <p class="footer-note">A focused space for your next step.</p>
+  </section>
+
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 "use strict";
-const db=window.supabase.createClient("https://cvavzvwdrdnhzehwbcde.supabase.co","sb_publishable_nDplIS94xUEkZN9arHHM2g_3j18JeOk");
-const $=id=>document.getElementById(id),site=new URL("./",location.href).href,dashboard=new URL("dashboard.html",site).href;
-const email=$("email"),password=$("password"),name=$("signupName"),se=$("signupEmail"),sp=$("signupPassword"),cp=$("confirmPassword"),notice=$("notice");
-const es=$("emailStep"),ps=$("passwordStep"),ss=$("signupStep");
-let transitioning=false;
-function msg(s,type=""){notice.textContent=s;notice.className="notice show"+(type?" "+type:"")}
-function clear(){notice.textContent="";notice.className="notice"}
-function valid(el){el.value=el.type==="password"?el.value:el.value.trim();if(!el.checkValidity()){el.reportValidity();el.focus();return false}return true}
-function busy(b,on,label=""){if(on){if(b.disabled)return false;b.dataset.old=b.textContent;b.disabled=true;b.textContent=label;b.setAttribute("aria-busy","true")}else{b.textContent=b.dataset.old||b.textContent;delete b.dataset.old;b.disabled=false;b.removeAttribute("aria-busy")}return true}
-function switchStep(from,to,focus){if(transitioning||from===to)return;transitioning=true;clear();from.classList.add("leaving");let done=false,timer;function finish(){if(done)return;done=true;clearTimeout(timer);from.removeEventListener("animationend",end);from.classList.remove("active","leaving");from.inert=true;from.setAttribute("aria-hidden","true");to.classList.add("active");to.inert=false;to.setAttribute("aria-hidden","false");transitioning=false;focus.focus()}function end(e){if(e.target===from)finish()}from.addEventListener("animationend",end);timer=setTimeout(finish,250)}
-function next(){if(!valid(email))return;email.value=email.value.trim().toLowerCase();$("chosenEmail").textContent=email.value;switchStep(es,ps,password)}
-$("nextButton").onclick=next;
-email.onkeydown=e=>{if(e.key==="Enter")next()};
-password.onkeydown=e=>{if(e.key==="Enter")$("loginButton").click()};
-sp.onkeydown=e=>{if(e.key==="Enter")cp.focus()};
-cp.onkeydown=e=>{if(e.key==="Enter")$("signupButton").click()};
-$("backButton").onclick=()=>switchStep(ps,es,email);
-$("createAccountLink").onclick=e=>{e.preventDefault();switchStep(es,ss,name)};
-$("backToLoginLink").onclick=e=>{e.preventDefault();switchStep(ss,es,email)};
-password.oninput=()=>password.setCustomValidity("");
-cp.oninput=()=>cp.setCustomValidity("");
 
-$("signupButton").onclick=async()=>{
-const b=$("signupButton");
-if(b.disabled)return;
-for(const f of [name,se,sp,cp])if(!valid(f))return;
-if(sp.value.length<8){sp.setCustomValidity("Password must be at least 8 characters.");sp.reportValidity();return}
-if(sp.value!==cp.value){cp.setCustomValidity("Passwords do not match.");cp.reportValidity();cp.focus();return}
-sp.setCustomValidity("");cp.setCustomValidity("");busy(b,true,"Creating account...");
-try{
-const {data,error}=await db.auth.signUp({email:se.value.trim().toLowerCase(),password:sp.value,options:{data:{full_name:name.value.trim()},emailRedirectTo:site}});
-if(error)throw error;
-msg(data.user&&!data.session?"Account created! Check your email to confirm your address.":"Account created successfully.","success");
-}catch(e){console.error("Signup:",e);msg("Could not create account. Check your details and try again.","error")}
-finally{busy(b,false)}
+const db = window.supabase.createClient(
+  "https://cvavzvwdrdnhzehwbcde.supabase.co",
+  "sb_publishable_nDplIS94xUEkZN9arHHM2g_3j18JeOk"
+);
+
+const $ = id => document.getElementById(id);
+const site = new URL("./", location.href).href;
+const dashboard = new URL("dashboard.html", site).href;
+
+const email = $("email");
+const password = $("password");
+const name = $("signupName");
+const se = $("signupEmail");
+const sp = $("signupPassword");
+const cp = $("confirmPassword");
+const notice = $("notice");
+
+const es = $("emailStep");
+const ps = $("passwordStep");
+const ss = $("signupStep");
+
+let transitioning = false;
+
+/* OPEN THE LOGIN PAGE */
+$("openLoginButton").onclick = () => {
+  $("homePage").hidden = true;
+  $("loginPage").hidden = false;
+
+  document.body.classList.remove("home-view");
+
+  clear();
+
+  // Always start at the email screen.
+  for (const step of [es, ps, ss]) {
+    step.classList.remove("active", "leaving");
+    step.inert = true;
+    step.setAttribute("aria-hidden", "true");
+  }
+
+  es.classList.add("active");
+  es.inert = false;
+  es.setAttribute("aria-hidden", "false");
+
+  transitioning = false;
+  email.focus();
 };
 
-$("loginButton").onclick=async()=>{
-const b=$("loginButton");
-if(b.disabled||!valid(password))return;
-busy(b,true,"Signing in...");
-try{
-const {data,error}=await db.auth.signInWithPassword({email:email.value.trim().toLowerCase(),password:password.value});
-if(error){
-msg(error.code==="email_not_confirmed"?"Please confirm your email before signing in.":"Sign-in failed. Check your email and password.","error");
-return;
+function msg(s, type = "") {
+  notice.textContent = s;
+  notice.className = "notice show" + (type ? " " + type : "");
 }
-if(!data.session){msg("No active session returned. Please try again.","error");return}
-location.assign(dashboard);
-}catch(e){console.error("Login:",e);msg("Sign-in failed. Check your connection and try again.","error")}
-finally{busy(b,false)}
+
+function clear() {
+  notice.textContent = "";
+  notice.className = "notice";
+}
+
+function valid(el) {
+  el.value = el.type === "password"
+    ? el.value
+    : el.value.trim();
+
+  if (!el.checkValidity()) {
+    el.reportValidity();
+    el.focus();
+    return false;
+  }
+
+  return true;
+}
+
+function busy(b, on, label = "") {
+  if (on) {
+    if (b.disabled) return false;
+    b.dataset.old = b.textContent;
+    b.disabled = true;
+    b.textContent = label;
+    b.setAttribute("aria-busy", "true");
+  } else {
+    b.textContent = b.dataset.old || b.textContent;
+    delete b.dataset.old;
+    b.disabled = false;
+    b.removeAttribute("aria-busy");
+  }
+
+  return true;
+}
+
+function switchStep(from, to, focus) {
+  if (transitioning || from === to) return;
+
+  transitioning = true;
+  clear();
+  from.classList.add("leaving");
+
+  let done = false;
+  let timer;
+
+  function finish() {
+    if (done) return;
+
+    done = true;
+    clearTimeout(timer);
+    from.removeEventListener("animationend", end);
+
+    from.classList.remove("active", "leaving");
+    from.inert = true;
+    from.setAttribute("aria-hidden", "true");
+
+    to.classList.add("active");
+    to.inert = false;
+    to.setAttribute("aria-hidden", "false");
+
+    transitioning = false;
+    focus.focus();
+  }
+
+  function end(e) {
+    if (e.target === from) finish();
+  }
+
+  from.addEventListener("animationend", end);
+  timer = setTimeout(finish, 250);
+}
+
+/* EMAIL STEP */
+function next() {
+  if (!valid(email)) return;
+
+  email.value = email.value.trim().toLowerCase();
+  $("chosenEmail").textContent = email.value;
+
+  switchStep(es, ps, password);
+}
+
+$("nextButton").onclick = next;
+
+email.onkeydown = e => {
+  if (e.key === "Enter") next();
 };
 
-$("forgotPasswordLink").onclick=async e=>{
-e.preventDefault();
-if(!valid(email)){switchStep(ps,es,email);return}
-const b=e.currentTarget;if(b.dataset.busy)return;
-b.dataset.busy="1";b.style.pointerEvents="none";
-try{
-const {error}=await db.auth.resetPasswordForEmail(email.value.trim().toLowerCase(),{redirectTo:site});
-if(error)throw error;
-msg("If recovery is available, you'll receive an email with instructions.","success");
-}catch(e){console.error("Recovery:",e);msg("Could not send recovery email. Please try again.","error")}
-finally{delete b.dataset.busy;b.style.pointerEvents=""}
+password.onkeydown = e => {
+  if (e.key === "Enter") $("loginButton").click();
 };
 
-ps.inert=true;ps.setAttribute("aria-hidden","true");
-ss.inert=true;ss.setAttribute("aria-hidden","true");
-console.info("Dashboard destination:",dashboard);
+sp.onkeydown = e => {
+  if (e.key === "Enter") cp.focus();
+};
+
+cp.onkeydown = e => {
+  if (e.key === "Enter") $("signupButton").click();
+};
+
+$("backButton").onclick = () => switchStep(ps, es, email);
+
+$("createAccountLink").onclick = e => {
+  e.preventDefault();
+  switchStep(es, ss, name);
+};
+
+$("backToLoginLink").onclick = e => {
+  e.preventDefault();
+  switchStep(ss, es, email);
+};
+
+password.oninput = () => password.setCustomValidity("");
+cp.oninput = () => cp.setCustomValidity("");
+
+/* CREATE ACCOUNT */
+$("signupButton").onclick = async () => {
+  const b = $("signupButton");
+  if (b.disabled) return;
+
+  for (const f of [name, se, sp, cp]) {
+    if (!valid(f)) return;
+  }
+
+  if (sp.value.length < 8) {
+    sp.setCustomValidity("Password must be at least 8 characters.");
+    sp.reportValidity();
+    return;
+  }
+
+  if (sp.value !== cp.value) {
+    cp.setCustomValidity("Passwords do not match.");
+    cp.reportValidity();
+    cp.focus();
+    return;
+  }
+
+  sp.setCustomValidity("");
+  cp.setCustomValidity("");
+
+  busy(b, true, "Creating account...");
+
+  try {
+    const { data, error } = await db.auth.signUp({
+      email: se.value.trim().toLowerCase(),
+      password: sp.value,
+      options: {
+        data: { full_name: name.value.trim() },
+        emailRedirectTo: site
+      }
+    });
+
+    if (error) throw error;
+
+    msg(
+      data.user && !data.session
+        ? "Account created! Check your email to confirm your address."
+        : "Account created successfully.",
+      "success"
+    );
+  } catch (e) {
+    console.error("Signup:", e);
+    msg("Could not create account. Check your details and try again.", "error");
+  } finally {
+    busy(b, false);
+  }
+};
+
+/* SIGN IN */
+$("loginButton").onclick = async () => {
+  const b = $("loginButton");
+
+  if (b.disabled || !valid(password)) return;
+
+  busy(b, true, "Signing in...");
+
+  try {
+    const { data, error } = await db.auth.signInWithPassword({
+      email: email.value.trim().toLowerCase(),
+      password: password.value
+    });
+
+    if (error) {
+      msg(
+        error.code === "email_not_confirmed"
+          ? "Please confirm your email before signing in."
+          : "Sign-in failed. Check your email and password.",
+        "error"
+      );
+      return;
+    }
+
+    if (!data.session) {
+      msg("No active session returned. Please try again.", "error");
+      return;
+    }
+
+    location.assign(dashboard);
+  } catch (e) {
+    console.error("Login:", e);
+    msg("Sign-in failed. Check your connection and try again.", "error");
+  } finally {
+    busy(b, false);
+  }
+};
+
+/* FORGOT PASSWORD */
+$("forgotPasswordLink").onclick = async e => {
+  e.preventDefault();
+
+  if (!valid(email)) {
+    switchStep(ps, es, email);
+    return;
+  }
+
+  const b = e.currentTarget;
+  if (b.dataset.busy) return;
+
+  b.dataset.busy = "1";
+  b.style.pointerEvents = "none";
+
+  try {
+    const { error } = await db.auth.resetPasswordForEmail(
+      email.value.trim().toLowerCase(),
+      { redirectTo: site }
+    );
+
+    if (error) throw error;
+
+    msg(
+      "If recovery is available, you'll receive an email with instructions.",
+      "success"
+    );
+  } catch (e) {
+    console.error("Recovery:", e);
+    msg("Could not send recovery email. Please try again.", "error");
+  } finally {
+    delete b.dataset.busy;
+    b.style.pointerEvents = "";
+  }
+};
+
+/* INITIAL STATE */
+ps.inert = true;
+ps.setAttribute("aria-hidden", "true");
+
+ss.inert = true;
+ss.setAttribute("aria-hidden", "true");
+
+console.info("Dashboard destination:", dashboard);
 </script>
 </body>
 </html>
